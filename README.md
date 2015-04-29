@@ -1,2 +1,2 @@
 # ixmas-project
-The architecture evolves to optimize user satisfaction.
+Improve the architecture to maximize agent satisfaction.
