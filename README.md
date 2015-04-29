@@ -1,2 +1,2 @@
 # ixmas-project
-Improve the architecture to maximize agent satisfaction.
+improve the architecture to maximize agent satisfaction
