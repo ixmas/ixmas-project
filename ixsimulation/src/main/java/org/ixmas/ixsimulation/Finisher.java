@@ -1,7 +1,7 @@
 package org.ixmas.ixsimulation;
 
-public interface Context {
-    Context create();
+public interface Finisher {
+    Finisher create();
 
     boolean hasFinished();
 }

@@ -10,8 +10,8 @@ class Simulation1D {
         m_strategy = strategy1D;
     }
 
-    void simulate(Context context) throws InterruptedException {
-        m_strategy.buildAgents(context);
+    void simulate(Finisher finisher, int turnNbResultSender) throws InterruptedException {
+        m_strategy.buildAgents(finisher, turnNbResultSender);
         m_strategy.start();
     }
 

@@ -30,7 +30,7 @@ public class Simulation1DTest {
         }
         Strategy1D strategy1D = new Strategy1D(torus1D, m_computing1D, agentNumber, 1);
         Simulation1D simulation1D = new Simulation1D(strategy1D);
-        simulation1D.simulate(new TurnNumberContext(1));
+        simulation1D.simulate(new TurnNumberFinisher(1), 0);
         for (int x = 0; x < torus1D.getCircumference(); x++) {
             assertThat(torus1D.get(x)).isEqualTo(12.);
         }
@@ -52,7 +52,7 @@ public class Simulation1DTest {
         }
         Strategy1D strategy1D = new Strategy1D(torus1D, m_computing1D, agentNumber, 1);
         Simulation1D simulation1D = new Simulation1D(strategy1D);
-        simulation1D.simulate(new TurnNumberContext(1));
+        simulation1D.simulate(new TurnNumberFinisher(1), 0);
         for (int x = 0; x < torus1D.getCircumference(); x++) {
             assertThat(torus1D.get(x)).as("x=" + x).isEqualTo(expectedValues[x]);
         }
@@ -67,7 +67,22 @@ public class Simulation1DTest {
         }
         Strategy1D strategy1D = new Strategy1D(torus1D, m_computing1D, agentNumber, 2);
         Simulation1D simulation1D = new Simulation1D(strategy1D);
-        simulation1D.simulate(new TurnNumberContext(2));
+        simulation1D.simulate(new TurnNumberFinisher(2), 0);
+        for (int x = 0; x < torus1D.getCircumference(); x++) {
+            assertThat(torus1D.get(x)).as("x=" + x).isEqualTo(12.);
+        }
+    }
+
+    @Test
+    public void shouldBeExactIfNumberOfTurnExchangeEqualsOverlap() throws InterruptedException {
+        int agentNumber = 10;
+        Torus1D torus1D = new Torus1D(100);
+        for (int x = 0; x < torus1D.getCircumference(); x++) {
+            torus1D.put(x, 12);
+        }
+        Strategy1D strategy1D = new Strategy1D(torus1D, m_computing1D, agentNumber, 2);
+        Simulation1D simulation1D = new Simulation1D(strategy1D);
+        simulation1D.simulate(new TurnNumberFinisher(2), 2);
         for (int x = 0; x < torus1D.getCircumference(); x++) {
             assertThat(torus1D.get(x)).as("x=" + x).isEqualTo(12.);
         }

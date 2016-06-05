@@ -1,17 +1,17 @@
 package org.ixmas.ixsimulation;
 
-class TurnNumberContext implements Context {
+class TurnNumberFinisher implements Finisher {
 
     private final int m_turnNumber;
     private int m_turn = 0;
 
-    TurnNumberContext(int turnNumber) {
+    TurnNumberFinisher(int turnNumber) {
         m_turnNumber = turnNumber;
     }
 
     @Override
-    public Context create() {
-        return new TurnNumberContext(m_turnNumber);
+    public Finisher create() {
+        return new TurnNumberFinisher(m_turnNumber);
     }
 
     @Override
