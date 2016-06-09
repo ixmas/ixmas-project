@@ -12,9 +12,15 @@
         <module>ixcore</module>
         <module>ixsimulation</module>
         <module>ixmodel</module>
+        <module>ixmatrixmult</module>
     </modules>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>18.0</version>
+            </dependency>
             <dependency>
                 <groupId>org.testng</groupId>
                 <artifactId>testng</artifactId>
