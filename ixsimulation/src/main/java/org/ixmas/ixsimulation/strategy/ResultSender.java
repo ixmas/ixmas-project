@@ -1,6 +1,6 @@
 package org.ixmas.ixsimulation.strategy;
 
-import org.ixmas.space.grid.Grid1D;
+import org.ixmas.ixsimulation.space.grid.Grid1D;
 
 interface ResultSender {
 

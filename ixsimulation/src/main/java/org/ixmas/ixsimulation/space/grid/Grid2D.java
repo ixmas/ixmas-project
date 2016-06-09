@@ -1,4 +1,4 @@
-package org.ixmas.space.grid;
+package org.ixmas.ixsimulation.space.grid;
 
 public class Grid2D {
 

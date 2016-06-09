@@ -1,4 +1,4 @@
-package org.ixmas.space.torus;
+package org.ixmas.ixsimulation.space.torus;
 
 public class Torus2D {
 

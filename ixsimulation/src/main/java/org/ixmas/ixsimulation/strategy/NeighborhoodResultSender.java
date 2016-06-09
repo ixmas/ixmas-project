@@ -1,20 +1,20 @@
 package org.ixmas.ixsimulation.strategy;
 
-import org.ixmas.space.grid.Grid1D;
+import org.ixmas.ixsimulation.space.grid.Grid1D;
 
 import java.util.List;
 
 class NeighborhoodResultSender implements ResultSender {
 
     private final int m_turnNumber;
-    private final Agent m_beforeAgent;
-    private final Agent m_afterAgent;
+    private final Simulator1D m_beforeSimulator1D;
+    private final Simulator1D m_afterSimulator1D;
     private int m_turn = 0;
 
-    NeighborhoodResultSender(int agentIdx, int turnNumber, List<Agent> agents) {
+    NeighborhoodResultSender(int agentIdx, int turnNumber, List<Simulator1D> simulator1Ds) {
         m_turnNumber = turnNumber;
-        m_beforeAgent = agents.get((agentIdx + agents.size() - 1) % agents.size());
-        m_afterAgent = agents.get((agentIdx + 1) % agents.size());
+        m_beforeSimulator1D = simulator1Ds.get((agentIdx + simulator1Ds.size() - 1) % simulator1Ds.size());
+        m_afterSimulator1D = simulator1Ds.get((agentIdx + 1) % simulator1Ds.size());
     }
 
     @Override
@@ -28,7 +28,7 @@ class NeighborhoodResultSender implements ResultSender {
 
     @Override
     public void sendResult(Grid1D grid) {
-        m_beforeAgent.receiveResultFromAfter(grid);
-        m_afterAgent.receiveResultFromBefore(grid);
+        m_beforeSimulator1D.receiveResultFromAfter(grid);
+        m_afterSimulator1D.receiveResultFromBefore(grid);
     }
 }

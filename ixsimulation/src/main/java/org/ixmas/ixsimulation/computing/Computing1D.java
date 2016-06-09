@@ -1,4 +1,4 @@
-package org.ixmas.computing;
+package org.ixmas.ixsimulation.computing;
 
 public interface Computing1D {
 

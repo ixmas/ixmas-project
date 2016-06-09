@@ -1,6 +1,6 @@
-package org.ixmas.space.torus;
+package org.ixmas.ixsimulation.space.torus;
 
-import org.ixmas.space.grid.Grid1D;
+import org.ixmas.ixsimulation.space.grid.Grid1D;
 
 public class Torus1D {
 

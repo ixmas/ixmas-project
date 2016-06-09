@@ -1,8 +1,8 @@
 package org.ixmas.ixsimulation;
 
-import org.ixmas.computing.Computing1D;
+import org.ixmas.ixsimulation.computing.Computing1D;
+import org.ixmas.ixsimulation.space.torus.Torus1D;
 import org.ixmas.ixsimulation.strategy.Strategy1D;
-import org.ixmas.space.torus.Torus1D;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

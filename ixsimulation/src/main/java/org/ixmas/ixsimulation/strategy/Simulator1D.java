@@ -1,12 +1,13 @@
 package org.ixmas.ixsimulation.strategy;
 
-import org.ixmas.computing.Computing1D;
 import org.ixmas.ixsimulation.Finisher;
-import org.ixmas.space.grid.Grid1D;
+import org.ixmas.ixsimulation.computing.Computing1D;
+import org.ixmas.ixsimulation.space.grid.Grid1D;
 
 import java.util.concurrent.atomic.LongAdder;
 
-class Agent implements Runnable {
+class Simulator1D extends Thread {
+
     private final Computing1D m_computing;
     private final int m_overlap;
     private final Finisher m_finisher;
@@ -18,7 +19,7 @@ class Agent implements Runnable {
     private Grid1D m_gridNext;
     private LongAdder m_received = new LongAdder();
 
-    Agent(String name, Grid1D grid, Computing1D computing, int xMin, int xMax, int overlap, Finisher finisher) {
+    Simulator1D(String name, Grid1D grid, Computing1D computing, int xMin, int xMax, int overlap, Finisher finisher) {
         m_name = name;
         m_grid = grid;
         m_xMin = xMin;
@@ -43,6 +44,10 @@ class Agent implements Runnable {
 
     @Override
     public void run() {
+        simulate();
+    }
+
+    private void simulate() {
         while (!m_finisher.hasFinished()) {
             for (int x = m_computing.getNeighborhood(); x < m_grid.getSize() - m_computing.getNeighborhood(); x++) {
                 m_gridNext.put(x, m_computing.compute(m_grid.get(x - 1), m_grid.get(x), m_grid.get(x + 1)));
@@ -85,4 +90,5 @@ class Agent implements Runnable {
         }
         m_received.increment();
     }
+
 }
