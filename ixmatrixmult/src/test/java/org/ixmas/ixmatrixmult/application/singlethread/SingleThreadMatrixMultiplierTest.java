@@ -1,17 +1,15 @@
 package org.ixmas.ixmatrixmult.application.singlethread;
 
-import org.ixmas.ixmatrixmult.application.Matrix;
-import org.ixmas.ixmatrixmult.application.MatrixMultiplier;
 import org.ixmas.ixmatrixmult.application.MatrixMultiplierTest;
-import org.testng.annotations.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.testng.annotations.DataProvider;
 
 public class SingleThreadMatrixMultiplierTest extends MatrixMultiplierTest {
 
-    @Override
-    public MatrixMultiplier getMatrixMultiplier() {
-        return new SingleThreadMatrixMultiplier();
+    @DataProvider(name = "getMatrixMultipliers")
+    public Object[][] getMatrixMultipliers() {
+        return new Object[][]{//
+                new Object[]{"single case", new SingleThreadMatrixMultiplier()}};
     }
+
 
 }

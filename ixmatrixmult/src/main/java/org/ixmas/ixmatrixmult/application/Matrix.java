@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Arrays.asList;
 
 public class Matrix {
 
@@ -34,10 +35,14 @@ public class Matrix {
     }
 
     public void setLine(int lineIdx, Double... values) {
+        setLine(lineIdx, asList(values));
+    }
+
+    public void setLine(int lineIdx, List<Double> values) {
         checkArgument(lineIdx >= 0 && lineIdx < m_lineNumber, "lineIdx >= 0 && lineIdx < m_lineNumber");
-        checkArgument(values.length == m_columnNumber, "values.length == m_columnNumber");
-        for (int columnIdx = 0; columnIdx < values.length; columnIdx++) {
-            m_lines.get(lineIdx).set(columnIdx, values[columnIdx]);
+        checkArgument(values.size() == m_columnNumber, "values.length == m_columnNumber");
+        for (int columnIdx = 0; columnIdx < values.size(); columnIdx++) {
+            m_lines.get(lineIdx).set(columnIdx, values.get(columnIdx));
         }
     }
 
@@ -53,7 +58,7 @@ public class Matrix {
     }
 
     public Double get(int lineIdx, int columnIdx) {
-        checkArgument(lineIdx >= 0 && lineIdx < m_lineNumber, "lineIdx >= 0 && lineIdx < m_lineNumber");
+        checkArgument(lineIdx >= 0 && lineIdx < m_lineNumber, "0 <= lineIdx =  %s < m_lineNumber = %s", lineIdx, m_lineNumber);
         checkArgument(columnIdx >= 0 && columnIdx < m_columnNumber, "columnIdx >= 0 && columnIdx < m_columnNumber");
         return m_lines.get(lineIdx).get(columnIdx);
     }
@@ -88,5 +93,9 @@ public class Matrix {
                 ", m_columnNumber=" + m_columnNumber +
                 ", m_lines=" + m_lines +
                 '}';
+    }
+
+    public List<Double> getLine(int lineIdx) {
+        return m_lines.get(lineIdx);
     }
 }
