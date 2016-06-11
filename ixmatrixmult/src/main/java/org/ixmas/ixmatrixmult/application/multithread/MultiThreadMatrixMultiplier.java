@@ -25,28 +25,28 @@ public class MultiThreadMatrixMultiplier implements MatrixMultiplier {
     public Matrix multiply(Matrix m1, Matrix m2) {
         Matrix result = new Matrix(m1.getLineNumber(), m2.getColumnNumber());
         ExecutorService executor = newFixedThreadPool(threadNumber);
-        List<Future<Matrix>> list = new ArrayList<>();
-        int part = m1.getLineNumber() / threadNumber;
-        if (part < 1) {
-            part = 1;
+        List<Future<Matrix>> matrixFutures = new ArrayList<>();
+        int lineNumberPerThread = m1.getLineNumber() / threadNumber;
+        if (lineNumberPerThread < 1) {
+            lineNumberPerThread = 1;
         }
-        for (int lineIdx = 0; lineIdx < m1.getLineNumber(); lineIdx += part) {
-            Callable<Matrix> worker = new LineMultiplier(m1, m2, lineIdx, min(lineIdx + part, m1.getLineNumber()));
-            Future<Matrix> submit = executor.submit(worker);
-            list.add(submit);
+        for (int lineIdx = 0; lineIdx < m1.getLineNumber(); lineIdx += lineNumberPerThread) {
+            Callable<Matrix> lineMultiplier = new LineMultiplier(m1, m2, lineIdx, min(lineIdx + lineNumberPerThread, m1.getLineNumber()));
+            Future<Matrix> matrixFuture = executor.submit(lineMultiplier);
+            matrixFutures.add(matrixFuture);
         }
         int start = 0;
         Matrix lineResult;
-        for (Future<Matrix> future : list) {
+        for (Future<Matrix> matrixFuture : matrixFutures) {
             try {
-                lineResult = future.get();
+                lineResult = matrixFuture.get();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
-            for (int lineIdx = start; lineIdx < min(start + part, m1.getLineNumber()); lineIdx += 1) {
+            for (int lineIdx = start; lineIdx < min(start + lineNumberPerThread, m1.getLineNumber()); lineIdx += 1) {
                 result.setLine(lineIdx, lineResult.getLine(lineIdx));
             }
-            start += part;
+            start += lineNumberPerThread;
         }
         executor.shutdown();
         return result;
