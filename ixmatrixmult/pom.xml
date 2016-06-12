@@ -12,6 +12,11 @@
     <artifactId>ixmatrixmult</artifactId>
     <dependencies>
         <dependency>
+            <groupId>org.ixmas</groupId>
+            <artifactId>ixmodel</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>18.0</version>
