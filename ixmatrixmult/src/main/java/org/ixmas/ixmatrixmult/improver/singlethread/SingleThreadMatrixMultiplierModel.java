@@ -9,9 +9,11 @@ public class SingleThreadMatrixMultiplierModel implements MatrixMultiplierModel 
     @Override
     public Metrics evaluate(MatrixModel matrixModel1, MatrixModel matrixModel2) {
         Metrics metrics = new Metrics();
-        metrics.increaseOperationNumber(matrixModel1.getLineNumber() * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2);
-        metrics.increaseValueCopy(0);
-        metrics.increaseMemorySize(0);
+        metrics.setOperationNumber(matrixModel1.getLineNumber() * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2);
+        metrics.setValueCopy(0);
+        metrics.setMemorySize(matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
+                + matrixModel2.getLineNumber() * matrixModel2.getColumnNumber()
+                + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber());
         return metrics;
     }
 

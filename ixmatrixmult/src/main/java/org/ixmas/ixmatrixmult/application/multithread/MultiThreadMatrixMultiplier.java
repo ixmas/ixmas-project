@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.Math.min;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
@@ -23,6 +24,7 @@ public class MultiThreadMatrixMultiplier implements MatrixMultiplier {
 
     @Override
     public Matrix multiply(Matrix m1, Matrix m2) {
+        checkArgument(m1.getColumnNumber() == m2.getLineNumber());
         Matrix result = new Matrix(m1.getLineNumber(), m2.getColumnNumber());
         ExecutorService executor = newFixedThreadPool(threadNumber);
         List<Future<Matrix>> matrixFutures = new ArrayList<>();
