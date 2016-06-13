@@ -1,13 +1,15 @@
 package org.ixmas.ixmatrixmult.improver;
 
+import org.ixmas.ixmatrixmult.improver.multithread.MultiThreadMatrixMultiplierModel;
 import org.ixmas.ixmatrixmult.improver.multithread.MultiThreadMatrixOperationMetricsEvaluator;
+import org.ixmas.ixmatrixmult.improver.singlethread.SingleThreadMatrixMultiplierModel;
 import org.ixmas.ixmatrixmult.improver.singlethread.SingleThreadMatrixOperationMetricsEvaluator;
-import org.ixmas.ixmodel.improver.MetricsEvaluator;
-import org.ixmas.ixmodel.improver.MetricsEvaluatorLister;
+import org.ixmas.ixmodel.improver.ModelAndEvaluator;
+import org.ixmas.ixmodel.improver.ModelAndEvaluatorLister;
 
 import static java.util.Arrays.asList;
 
-public class MatrixOperationModelLister implements MetricsEvaluatorLister {
+public class MatrixOperationModelLister implements ModelAndEvaluatorLister {
 
     private final int m_auxiliaryNumber;
 
@@ -16,8 +18,8 @@ public class MatrixOperationModelLister implements MetricsEvaluatorLister {
     }
 
     @Override
-    public Iterable<MetricsEvaluator> list() {
-        return asList(new SingleThreadMatrixOperationMetricsEvaluator(),
-                new MultiThreadMatrixOperationMetricsEvaluator(m_auxiliaryNumber));
+    public Iterable<ModelAndEvaluator> list() {
+        return asList(new ModelAndEvaluator(new SingleThreadMatrixMultiplierModel(), new SingleThreadMatrixOperationMetricsEvaluator()),
+                new ModelAndEvaluator(new MultiThreadMatrixMultiplierModel(m_auxiliaryNumber), new MultiThreadMatrixOperationMetricsEvaluator()));
     }
 }

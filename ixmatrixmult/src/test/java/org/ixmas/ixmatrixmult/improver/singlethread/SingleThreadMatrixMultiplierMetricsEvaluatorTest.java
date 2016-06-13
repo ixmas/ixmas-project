@@ -11,10 +11,11 @@ public class SingleThreadMatrixMultiplierMetricsEvaluatorTest {
 
     @Test
     public void testEvaluate() throws Exception {
-        SingleThreadMatrixOperationMetricsEvaluator singleThreadMatrixMultiplierModel = new SingleThreadMatrixOperationMetricsEvaluator();
+        SingleThreadMatrixMultiplierModel singleThreadMatrixMultiplierModel = new SingleThreadMatrixMultiplierModel();
+        SingleThreadMatrixOperationMetricsEvaluator singleThreadMatrixOperationMetricsEvaluator = new SingleThreadMatrixOperationMetricsEvaluator();
         MatrixModel matrixModel1 = new MatrixModel(3, 2);
         MatrixModel matrixModel2 = new MatrixModel(2, 4);
-        Metrics metrics = singleThreadMatrixMultiplierModel.evaluate(matrixModel1, matrixModel2);
+        Metrics metrics = singleThreadMatrixOperationMetricsEvaluator.evaluate(singleThreadMatrixMultiplierModel, matrixModel1, matrixModel2);
         Metrics expectedMetrics = new MatrixMultiplierMetrics();
         expectedMetrics.getMetricsValues().putValue(MatrixMultiplierMetrics.operationNumber, 3 * 4 * 2 * 2).putValue(MatrixMultiplierMetrics.memorySize, 3 * 2 + 2 * 4 + 3 * 4);
         assertEquals(metrics, expectedMetrics);

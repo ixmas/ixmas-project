@@ -24,7 +24,8 @@ public class MultiThreadMatrixMultiplierMetricsEvaluatorTest {
 
     @Test(dataProvider = "getThreadNumber")
     public void testEvaluate(int threadNumber) {
-        MultiThreadMatrixOperationMetricsEvaluator multiThreadMatrixMultiplierModel = new MultiThreadMatrixOperationMetricsEvaluator(threadNumber);
+        MultiThreadMatrixMultiplierModel multiThreadMatrixMultiplierModel = new MultiThreadMatrixMultiplierModel(threadNumber);
+        MultiThreadMatrixOperationMetricsEvaluator multiThreadMatrixOperationMetricsEvaluator = new MultiThreadMatrixOperationMetricsEvaluator();
         int matrixModel1LineNumber = threadNumber * 8;
         int matrixModel1ColumnNumber = threadNumber * 8;
         int matrixModel2LineNumber = matrixModel1ColumnNumber;
@@ -35,7 +36,7 @@ public class MultiThreadMatrixMultiplierMetricsEvaluatorTest {
         }
         MatrixModel matrixModel1 = new MatrixModel(matrixModel1LineNumber, matrixModel1ColumnNumber);
         MatrixModel matrixModel2 = new MatrixModel(matrixModel2LineNumber, matrixModel2ColumnNumber);
-        Metrics metrics = multiThreadMatrixMultiplierModel.evaluate(matrixModel1, matrixModel2);
+        Metrics metrics = multiThreadMatrixOperationMetricsEvaluator.evaluate(multiThreadMatrixMultiplierModel, matrixModel1, matrixModel2);
         Metrics expectedMetrics = new MatrixMultiplierMetrics();
         expectedMetrics.getMetricsValues().putValue(MatrixMultiplierMetrics.operationNumberPerAuxiliary, lineNumberPerAuxiliary * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2).putValue(MatrixMultiplierMetrics.valueCopy, matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MatrixMultiplierMetrics.memorySize, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
                 + matrixModel2.getLineNumber() * matrixModel2.getColumnNumber()

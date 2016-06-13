@@ -2,8 +2,8 @@ package org.ixmas.ixmodel.improver;
 
 import org.ixmas.ixmodel.metrics.Metrics;
 
-public interface MetricsEvaluator<IM extends InputModel> {
+public interface MetricsEvaluator<M, IM extends InputModel> {
 
-    Metrics evaluate(IM inputModel);
+    Metrics evaluate(M model, IM inputModel);
 
 }

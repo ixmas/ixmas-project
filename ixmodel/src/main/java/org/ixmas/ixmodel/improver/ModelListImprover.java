@@ -9,17 +9,19 @@ import java.util.Map;
 
 public class ModelListImprover implements Improver {
 
-    private MetricsEvaluatorLister m_metricsEvaluatorLister;
+    private ModelAndEvaluatorLister m_modelAndEvaluatorLister;
 
-    public ModelListImprover(MetricsEvaluatorLister metricsEvaluatorLister) {
-        m_metricsEvaluatorLister = metricsEvaluatorLister;
+    public ModelListImprover(ModelAndEvaluatorLister modelAndEvaluatorLister) {
+        m_modelAndEvaluatorLister = modelAndEvaluatorLister;
     }
 
     @Override
     public Map<MetricsEvaluator, Metrics> bestModels(InputModel inputModel) {
         Map<MetricsEvaluator, Metrics> metricsByMetricsEvaluator = new HashMap<>();
-        for (MetricsEvaluator metricsEvaluator : m_metricsEvaluatorLister.list()) {
-            Metrics metrics = metricsEvaluator.evaluate(inputModel);
+        for (ModelAndEvaluator modelAndEvaluator : m_modelAndEvaluatorLister.list()) {
+            Object model = modelAndEvaluator.getModel();
+            MetricsEvaluator metricsEvaluator = modelAndEvaluator.getMetricsEvaluator();
+            Metrics metrics = metricsEvaluator.evaluate(model, inputModel);
             compareAndUpdate(metrics, metricsEvaluator, metricsByMetricsEvaluator);
         }
         return metricsByMetricsEvaluator;

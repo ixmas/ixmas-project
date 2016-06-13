@@ -5,20 +5,12 @@ import org.ixmas.ixmatrixmult.improver.MatrixMultiplierMetrics;
 import org.ixmas.ixmatrixmult.improver.MatrixOperationMetricsEvaluator;
 import org.ixmas.ixmodel.metrics.Metrics;
 
-import java.util.Objects;
-
-public class MultiThreadMatrixOperationMetricsEvaluator implements MatrixOperationMetricsEvaluator {
-
-    private final int m_auxiliaryNumber;
-
-    public MultiThreadMatrixOperationMetricsEvaluator(int auxiliaryNumber) {
-        m_auxiliaryNumber = auxiliaryNumber;
-    }
+public class MultiThreadMatrixOperationMetricsEvaluator implements MatrixOperationMetricsEvaluator<MultiThreadMatrixMultiplierModel> {
 
     @Override
-    public Metrics evaluate(MatrixModel matrixModel1, MatrixModel matrixModel2) {
+    public Metrics evaluate(MultiThreadMatrixMultiplierModel model, MatrixModel matrixModel1, MatrixModel matrixModel2) {
         Metrics metrics = new MatrixMultiplierMetrics();
-        int lineNumberPerAuxiliary = matrixModel1.getLineNumber() / m_auxiliaryNumber;
+        int lineNumberPerAuxiliary = matrixModel1.getLineNumber() / model.getAuxiliaryNumber();
         if (lineNumberPerAuxiliary < 1) {
             lineNumberPerAuxiliary = 1;
         }
@@ -31,16 +23,4 @@ public class MultiThreadMatrixOperationMetricsEvaluator implements MatrixOperati
         return metrics;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MultiThreadMatrixOperationMetricsEvaluator that = (MultiThreadMatrixOperationMetricsEvaluator) o;
-        return m_auxiliaryNumber == that.m_auxiliaryNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(m_auxiliaryNumber);
-    }
 }

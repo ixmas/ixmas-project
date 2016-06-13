@@ -7,10 +7,10 @@ import org.ixmas.ixmodel.metrics.Metrics;
 
 import java.util.Objects;
 
-public class SingleThreadMatrixOperationMetricsEvaluator implements MatrixOperationMetricsEvaluator {
+public class SingleThreadMatrixOperationMetricsEvaluator implements MatrixOperationMetricsEvaluator<SingleThreadMatrixMultiplierModel> {
 
     @Override
-    public Metrics evaluate(MatrixModel matrixModel1, MatrixModel matrixModel2) {
+    public Metrics evaluate(SingleThreadMatrixMultiplierModel model, MatrixModel matrixModel1, MatrixModel matrixModel2) {
         Metrics metrics = new MatrixMultiplierMetrics();
         metrics.getMetricsValues().putValue(MatrixMultiplierMetrics.operationNumber, matrixModel1.getLineNumber() * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2).putValue(MatrixMultiplierMetrics.valueCopy, 0).putValue(MatrixMultiplierMetrics.memorySize, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
                 + matrixModel2.getLineNumber() * matrixModel2.getColumnNumber()
