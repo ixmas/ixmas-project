@@ -22,6 +22,10 @@ public class MetricsType {
         return putDimension(dimension, true);
     }
 
+    public Map<String, Boolean> getOrderByDimension() {
+        return m_orderByDimension;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

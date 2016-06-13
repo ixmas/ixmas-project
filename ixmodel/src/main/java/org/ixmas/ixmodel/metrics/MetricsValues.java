@@ -37,4 +37,8 @@ public class MetricsValues {
                 "m_values=" + m_values +
                 '}';
     }
+
+    public Double getValue(String dimension) {
+        return m_values.get(dimension);
+    }
 }

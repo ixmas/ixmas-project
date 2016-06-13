@@ -2,14 +2,16 @@ package org.ixmas.ixmatrixmult.improver.multithread;
 
 import org.ixmas.ixmatrixmult.improver.MatrixModel;
 import org.ixmas.ixmatrixmult.improver.MatrixMultiplierMetrics;
-import org.ixmas.ixmatrixmult.improver.MatrixMultiplierModel;
+import org.ixmas.ixmatrixmult.improver.MatrixOperationMetricsEvaluator;
 import org.ixmas.ixmodel.metrics.Metrics;
 
-public class MultiThreadMatrixMultiplierModel implements MatrixMultiplierModel {
+import java.util.Objects;
+
+public class MultiThreadMatrixOperationMetricsEvaluator implements MatrixOperationMetricsEvaluator {
 
     private final int m_auxiliaryNumber;
 
-    public MultiThreadMatrixMultiplierModel(int auxiliaryNumber) {
+    public MultiThreadMatrixOperationMetricsEvaluator(int auxiliaryNumber) {
         m_auxiliaryNumber = auxiliaryNumber;
     }
 
@@ -29,4 +31,16 @@ public class MultiThreadMatrixMultiplierModel implements MatrixMultiplierModel {
         return metrics;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MultiThreadMatrixOperationMetricsEvaluator that = (MultiThreadMatrixOperationMetricsEvaluator) o;
+        return m_auxiliaryNumber == that.m_auxiliaryNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(m_auxiliaryNumber);
+    }
 }

@@ -7,11 +7,11 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class SingleThreadMatrixMultiplierModelTest {
+public class SingleThreadMatrixMultiplierMetricsEvaluatorTest {
 
     @Test
     public void testEvaluate() throws Exception {
-        SingleThreadMatrixMultiplierModel singleThreadMatrixMultiplierModel = new SingleThreadMatrixMultiplierModel();
+        SingleThreadMatrixOperationMetricsEvaluator singleThreadMatrixMultiplierModel = new SingleThreadMatrixOperationMetricsEvaluator();
         MatrixModel matrixModel1 = new MatrixModel(3, 2);
         MatrixModel matrixModel2 = new MatrixModel(2, 4);
         Metrics metrics = singleThreadMatrixMultiplierModel.evaluate(matrixModel1, matrixModel2);

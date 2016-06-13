@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MultiThreadMatrixMultiplierModelTest {
+public class MultiThreadMatrixMultiplierMetricsEvaluatorTest {
 
     private static final int maxThreadNumber = 8;
 
@@ -24,7 +24,7 @@ public class MultiThreadMatrixMultiplierModelTest {
 
     @Test(dataProvider = "getThreadNumber")
     public void testEvaluate(int threadNumber) {
-        MultiThreadMatrixMultiplierModel multiThreadMatrixMultiplierModel = new MultiThreadMatrixMultiplierModel(threadNumber);
+        MultiThreadMatrixOperationMetricsEvaluator multiThreadMatrixMultiplierModel = new MultiThreadMatrixOperationMetricsEvaluator(threadNumber);
         int matrixModel1LineNumber = threadNumber * 8;
         int matrixModel1ColumnNumber = threadNumber * 8;
         int matrixModel2LineNumber = matrixModel1ColumnNumber;

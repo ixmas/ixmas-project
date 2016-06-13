@@ -2,10 +2,12 @@ package org.ixmas.ixmatrixmult.improver.singlethread;
 
 import org.ixmas.ixmatrixmult.improver.MatrixModel;
 import org.ixmas.ixmatrixmult.improver.MatrixMultiplierMetrics;
-import org.ixmas.ixmatrixmult.improver.MatrixMultiplierModel;
+import org.ixmas.ixmatrixmult.improver.MatrixOperationMetricsEvaluator;
 import org.ixmas.ixmodel.metrics.Metrics;
 
-public class SingleThreadMatrixMultiplierModel implements MatrixMultiplierModel {
+import java.util.Objects;
+
+public class SingleThreadMatrixOperationMetricsEvaluator implements MatrixOperationMetricsEvaluator {
 
     @Override
     public Metrics evaluate(MatrixModel matrixModel1, MatrixModel matrixModel2) {
@@ -15,5 +17,16 @@ public class SingleThreadMatrixMultiplierModel implements MatrixMultiplierModel 
                 + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber());
         return metrics;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o || !(o == null || getClass() != o.getClass());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(0);
+    }
+
 
 }
