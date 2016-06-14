@@ -16,4 +16,11 @@ public class MultiThreadMatrixMultiplierModel implements MatrixMultiplierModel {
     public int getAuxiliaryNumber() {
         return m_auxiliaryNumber;
     }
+
+    @Override
+    public String toString() {
+        return "MultiThreadMatrixMultiplierModel{" +
+                "m_auxiliaryNumber=" + m_auxiliaryNumber +
+                '}';
+    }
 }
