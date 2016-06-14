@@ -1,8 +1,10 @@
 package org.ixmas.ixmatrixmult.improver;
 
+import org.ixmas.ixmodel.improver.InputModel;
+
 import static com.google.common.base.Preconditions.checkArgument;
 
-public class MatrixModel {
+public class MatrixModel implements InputModel {
 
     private final int m_lineNumber;
     private final int m_columnNumber;

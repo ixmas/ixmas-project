@@ -1,6 +1,6 @@
 package org.ixmas.ixmodel.improver;
 
-public interface ModelAndEvaluatorLister {
+public interface ModelAndEvaluatorLister<M extends Model, IM extends InputModel> {
 
-    Iterable<ModelAndEvaluator> list();
+    Iterable<ModelAndEvaluator<M, IM>> list();
 }

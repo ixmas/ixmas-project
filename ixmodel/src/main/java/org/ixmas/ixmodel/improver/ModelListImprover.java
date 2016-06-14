@@ -7,32 +7,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ModelListImprover implements Improver {
+public class ModelListImprover<M extends Model, IM extends InputModel> implements Improver<M, IM> {
 
-    private ModelAndEvaluatorLister m_modelAndEvaluatorLister;
+    private ModelAndEvaluatorLister<M, IM> m_modelAndEvaluatorLister;
 
-    public ModelListImprover(ModelAndEvaluatorLister modelAndEvaluatorLister) {
+    public ModelListImprover(ModelAndEvaluatorLister<M, IM> modelAndEvaluatorLister) {
         m_modelAndEvaluatorLister = modelAndEvaluatorLister;
     }
 
     @Override
-    public Map<MetricsEvaluator, Metrics> bestModels(InputModel inputModel) {
-        Map<MetricsEvaluator, Metrics> metricsByMetricsEvaluator = new HashMap<>();
-        for (ModelAndEvaluator modelAndEvaluator : m_modelAndEvaluatorLister.list()) {
-            Object model = modelAndEvaluator.getModel();
+    public Map<M, Metrics> bestModels(IM inputModel) {
+        Map<M, Metrics> modelByMetricsEvaluator = new HashMap<>();
+        for (ModelAndEvaluator<M, IM> modelAndEvaluator : m_modelAndEvaluatorLister.list()) {
+            M model = modelAndEvaluator.getModel();
             MetricsEvaluator metricsEvaluator = modelAndEvaluator.getMetricsEvaluator();
             Metrics metrics = metricsEvaluator.evaluate(model, inputModel);
-            compareAndUpdate(metrics, metricsEvaluator, metricsByMetricsEvaluator);
+            compareAndUpdate(metrics, model, modelByMetricsEvaluator);
         }
-        return metricsByMetricsEvaluator;
+        return modelByMetricsEvaluator;
     }
 
-    private void compareAndUpdate(Metrics metrics, MetricsEvaluator metricsEvaluator, Map<MetricsEvaluator, Metrics> metricsByModel) {
-        List<MetricsEvaluator> metricsEvaluatorsToRemove = new ArrayList<>();
-        boolean isToAdd = false;
-        for (Map.Entry<MetricsEvaluator, Metrics> metricsEvaluatorMetricsEntry : metricsByModel.entrySet()) {
-            MetricsEvaluator existingMetricsEvaluator = metricsEvaluatorMetricsEntry.getKey();
-            Metrics existingMetrics = metricsEvaluatorMetricsEntry.getValue();
+    private void compareAndUpdate(Metrics metrics, M model, Map<M, Metrics> metricsByModel) {
+        List<M> modelsToRemove = new ArrayList<>();
+        boolean isToAdd = true;
+        for (Map.Entry<M, Metrics> modelMetricsEntry : metricsByModel.entrySet()) {
+            M existingModel = modelMetricsEntry.getKey();
+            Metrics existingMetrics = modelMetricsEntry.getValue();
             Integer comparison = metrics.compareWith(existingMetrics);
             if (comparison != null) { // comparable
                 if (comparison == -1) { //
@@ -40,15 +40,15 @@ public class ModelListImprover implements Improver {
                     break;
                 } else if (comparison == 1) {
                     isToAdd = true;
-                    metricsEvaluatorsToRemove.add(existingMetricsEvaluator);
+                    modelsToRemove.add(existingModel);
                 } else {
                     // TODO: manage equality
                 }
             }
         }
         if (isToAdd) {
-            metricsEvaluatorsToRemove.forEach(metricsByModel::remove);
-            metricsByModel.put(metricsEvaluator, metrics);
+            modelsToRemove.forEach(metricsByModel::remove);
+            metricsByModel.put(model, metrics);
         }
     }
 

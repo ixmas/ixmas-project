@@ -1,10 +1,15 @@
 package org.ixmas.ixmatrixmult.improver.multithread;
 
-public class MultiThreadMatrixMultiplierModel {
+import org.ixmas.ixmatrixmult.improver.MatrixMultiplierModel;
+
+import static com.google.common.base.Preconditions.checkArgument;
+
+public class MultiThreadMatrixMultiplierModel implements MatrixMultiplierModel {
 
     private final int m_auxiliaryNumber;
 
     public MultiThreadMatrixMultiplierModel(int auxiliaryNumber) {
+        checkArgument(auxiliaryNumber > 0);
         m_auxiliaryNumber = auxiliaryNumber;
     }
 

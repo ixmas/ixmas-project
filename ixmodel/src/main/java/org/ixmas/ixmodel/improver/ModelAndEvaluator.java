@@ -1,6 +1,6 @@
 package org.ixmas.ixmodel.improver;
 
-public class ModelAndEvaluator<M, IM extends InputModel> {
+public class ModelAndEvaluator<M extends Model, IM extends InputModel> {
 
     private M model;
     private MetricsEvaluator<M, IM> m_metricsEvaluator;

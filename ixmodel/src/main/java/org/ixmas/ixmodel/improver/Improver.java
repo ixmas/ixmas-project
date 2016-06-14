@@ -4,7 +4,7 @@ import org.ixmas.ixmodel.metrics.Metrics;
 
 import java.util.Map;
 
-public interface Improver {
+public interface Improver<M extends Model, IM extends InputModel> {
 
-    Map<MetricsEvaluator, Metrics> bestModels(InputModel inputModel);
+    Map<M, Metrics> bestModels(IM inputModel);
 }

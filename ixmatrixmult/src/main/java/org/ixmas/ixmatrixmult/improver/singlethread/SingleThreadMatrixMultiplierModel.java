@@ -1,5 +1,7 @@
 package org.ixmas.ixmatrixmult.improver.singlethread;
 
-public class SingleThreadMatrixMultiplierModel {
+import org.ixmas.ixmatrixmult.improver.MatrixMultiplierModel;
+
+public class SingleThreadMatrixMultiplierModel implements MatrixMultiplierModel {
 
 }
