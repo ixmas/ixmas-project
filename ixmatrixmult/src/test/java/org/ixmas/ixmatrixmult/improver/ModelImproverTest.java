@@ -23,4 +23,16 @@ public class ModelImproverTest {
         }
     }
 
+    @Test
+    public void should() {
+        ModelImprover modelImprover = new ModelImprover(new MatrixOperationModelLister());
+        int size = 1;
+        for (int n = 0; n < 10; n++) {
+            ModelsByMetrics modelsByMetrics = modelImprover.bestModels(new MatrixOperationInputModel(new MatrixModel(size, size), new MatrixModel(size, size)));
+            assertThat(modelsByMetrics.getMetricses()).isNotEmpty();
+            System.out.println(modelsByMetrics);
+            size = size * 2;
+        }
+    }
+
 }

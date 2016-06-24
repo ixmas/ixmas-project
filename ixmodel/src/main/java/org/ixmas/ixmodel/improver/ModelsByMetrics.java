@@ -34,7 +34,7 @@ public class ModelsByMetrics {
             }
         }
         if (isToAdd) {
-            metricsToRemove.forEach(metricsToRemove::remove);
+            metricsToRemove.forEach(m_modelsByMetrics::remove);
             List<Model> models = new ArrayList<>();
             models.add(model);
             m_modelsByMetrics.put(metrics, models);
@@ -43,5 +43,12 @@ public class ModelsByMetrics {
 
     public Iterable<Metrics> getMetricses() {
         return m_modelsByMetrics.keySet();
+    }
+
+    @Override
+    public String toString() {
+        return "ModelsByMetrics{" +
+                "m_modelsByMetrics=" + m_modelsByMetrics +
+                '}';
     }
 }

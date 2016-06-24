@@ -3,6 +3,10 @@ package org.ixmas.ixmodel.metrics;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.ixmas.ixmodel.metrics.Order.Ascending;
+
 public class Metrics {
 
     private MetricsType m_metricsType;
@@ -49,28 +53,37 @@ public class Metrics {
      * @return -1 if less than otherMetrics, 0 if equal to, 1 if greater than, null if not comparable
      */
     public Integer compareWith(Metrics otherMetrics) {
+        checkNotNull(otherMetrics);
+        checkArgument(otherMetrics.getMetricsType().equals(m_metricsType));
         boolean isLessThan = true;
         boolean isEqualTo = true;
         boolean isGreaterThan = true;
-        for (Map.Entry<String, Boolean> dimensionOrderEntry : m_metricsType.getOrderByDimension().entrySet()) {
+        for (Map.Entry<String, Order> dimensionOrderEntry : m_metricsType.getOrderByDimension().entrySet()) {
             String dimension = dimensionOrderEntry.getKey();
-            Boolean order = dimensionOrderEntry.getValue();
+            Order order = dimensionOrderEntry.getValue();
 
             Double value = m_metricsValues.getValue(dimension);
             Double otherValue = otherMetrics.getMetricsValues().getValue(dimension);
-            if (!value.equals(otherValue)) {
+            if (!(value == null && otherValue == null)) {
                 isEqualTo = false;
-                if (value < otherValue) {
-                    if (order) {
-                        isGreaterThan = false;
-                    } else {
-                        isLessThan = false;
-                    }
-                } else if (value < otherValue) {
-                    if (order) {
-                        isLessThan = false;
-                    } else {
-                        isGreaterThan = false;
+                if (value == null || otherValue == null) {
+                    isGreaterThan = false;
+                    isLessThan = false;
+                    break;
+                }
+                if (!value.equals(otherValue)) {
+                    if (value < otherValue) {
+                        if (order == Ascending) {
+                            isGreaterThan = false;
+                        } else {
+                            isLessThan = false;
+                        }
+                    } else { // if (value > otherValue) {
+                        if (order == Ascending) {
+                            isLessThan = false;
+                        } else {
+                            isGreaterThan = false;
+                        }
                     }
                 }
 
@@ -86,5 +99,18 @@ public class Metrics {
             return null;
         }
     }
+
+    public Metrics putValue(String dimension, Integer value) {
+        checkArgument(m_metricsType.containsDimension(dimension));
+        m_metricsValues.putValue(dimension, value);
+        return this;
+    }
+
+    public Metrics putValue(String dimension, Double value) {
+        checkArgument(m_metricsType.containsDimension(dimension));
+        m_metricsValues.putValue(dimension, value);
+        return this;
+    }
+
 }
 

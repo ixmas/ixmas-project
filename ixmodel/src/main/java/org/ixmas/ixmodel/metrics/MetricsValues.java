@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class MetricsValues {
+class MetricsValues {
 
     private Map<String, Double> m_values = new HashMap<>();
 
-    public MetricsValues putValue(String dimension, Double value) {
+    MetricsValues putValue(String dimension, Double value) {
         m_values.put(dimension, value);
         return this;
     }
 
-    public MetricsValues putValue(String dimension, Integer value) {
+    MetricsValues putValue(String dimension, Integer value) {
         m_values.put(dimension, value.doubleValue());
         return this;
     }
@@ -38,7 +38,7 @@ public class MetricsValues {
                 '}';
     }
 
-    public Double getValue(String dimension) {
+    Double getValue(String dimension) {
         return m_values.get(dimension);
     }
 }

@@ -4,25 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static org.ixmas.ixmodel.metrics.Order.Ascending;
+
 public class MetricsType {
 
     private String m_name;
-    private Map<String, Boolean> m_orderByDimension = new HashMap<>();
+    private Map<String, Order> m_orderByDimension = new HashMap<>();
 
     public MetricsType(String name) {
         m_name = name;
     }
 
-    public MetricsType putDimension(String dimension, boolean order) {
+    public MetricsType putDimension(String dimension, Order order) {
+        checkNotNull(dimension);
+        checkNotNull(order);
+        checkArgument(!m_orderByDimension.containsKey(dimension), "Dimension %s already put.", dimension);
         m_orderByDimension.put(dimension, order);
         return this;
     }
 
     public MetricsType putDimension(String dimension) {
-        return putDimension(dimension, true);
+        return putDimension(dimension, Ascending);
     }
 
-    public Map<String, Boolean> getOrderByDimension() {
+    public Map<String, Order> getOrderByDimension() {
         return m_orderByDimension;
     }
 
@@ -46,5 +53,9 @@ public class MetricsType {
                 "m_name='" + m_name + '\'' +
                 ", m_orderByDimension=" + m_orderByDimension +
                 '}';
+    }
+
+    public boolean containsDimension(String dimension) {
+        return m_orderByDimension.containsKey(dimension);
     }
 }
