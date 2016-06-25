@@ -1,14 +1,13 @@
 package org.ixmas.ixmatrixmult.improver.multithread;
 
 import org.ixmas.ixmatrixmult.improver.MatrixModel;
-import org.ixmas.ixmatrixmult.improver.MatrixMultiplierMetrics;
 import org.ixmas.ixmodel.metrics.Metrics;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MultiThreadMatrixMultiplierMetricsEvaluatorTest {
+public class MultiThreadMatrixMetricsEvaluatorTest {
 
     private static final int maxThreadNumber = 8;
 
@@ -24,26 +23,26 @@ public class MultiThreadMatrixMultiplierMetricsEvaluatorTest {
 
     @Test(dataProvider = "getThreadNumber")
     public void testEvaluate(int threadNumber) {
-        MultiThreadMatrixMultiplierModel multiThreadMatrixMultiplierModel = new MultiThreadMatrixMultiplierModel(threadNumber);
-        MultiThreadMatrixOperationMetricsEvaluator multiThreadMatrixOperationMetricsEvaluator = new MultiThreadMatrixOperationMetricsEvaluator();
+        MultiThreadMatrixSoftwareModel multiThreadMatrixMultiplierModel = new MultiThreadMatrixSoftwareModel(threadNumber);
+        MultiThreadMatrixSoftwareMetricsEvaluator multiThreadMatrixSoftwareMetricsEvaluator = new MultiThreadMatrixSoftwareMetricsEvaluator();
         int matrixModel1LineNumber = threadNumber * 8;
         int matrixModel1ColumnNumber = threadNumber * 8;
         int matrixModel2LineNumber = matrixModel1ColumnNumber;
         int matrixModel2ColumnNumber = threadNumber * 8;
-        int lineNumberPerAuxiliary = matrixModel1LineNumber / threadNumber;
-        if (lineNumberPerAuxiliary < 1) {
-            lineNumberPerAuxiliary = 1;
+        int lineNumberPerThread = matrixModel1LineNumber / threadNumber;
+        if (lineNumberPerThread < 1) {
+            lineNumberPerThread = 1;
         }
         MatrixModel matrixModel1 = new MatrixModel(matrixModel1LineNumber, matrixModel1ColumnNumber);
         MatrixModel matrixModel2 = new MatrixModel(matrixModel2LineNumber, matrixModel2ColumnNumber);
-        Metrics metrics = multiThreadMatrixOperationMetricsEvaluator.evaluate(multiThreadMatrixMultiplierModel, matrixModel1, matrixModel2);
-        Metrics expectedMetrics = new MatrixMultiplierMetrics();
-        expectedMetrics.putValue(MatrixMultiplierMetrics.operationNumberPerAuxiliary, lineNumberPerAuxiliary * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2).putValue(MatrixMultiplierMetrics.valueCopy, matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MatrixMultiplierMetrics.memorySize, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
+        Metrics metrics = multiThreadMatrixSoftwareMetricsEvaluator.evaluate(multiThreadMatrixMultiplierModel, matrixModel1, matrixModel2);
+        Metrics expectedMetrics = new MultiThreadMatrixSoftwareMetrics();
+        expectedMetrics.putValue(MultiThreadMatrixSoftwareMetrics.OPERATION_NUMBER_PER_THREAD, lineNumberPerThread * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2).putValue(MultiThreadMatrixSoftwareMetrics.VALUE_COPY, matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MultiThreadMatrixSoftwareMetrics.MEMORY_SIZE_MAIN, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
                 + matrixModel2.getLineNumber() * matrixModel2.getColumnNumber()
-                + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MatrixMultiplierMetrics.memorySizePerAuxiliary, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
+                + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MultiThreadMatrixSoftwareMetrics.MEMORY_SIZE_PER_THREAD, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
                 + matrixModel2.getLineNumber() * matrixModel2.getColumnNumber()
                 + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber());
-        assertThat(metrics).as("threadNumber = " + threadNumber).isEqualTo(expectedMetrics);
+        assertThat(metrics).as("THREAD_NUMBER = " + threadNumber).isEqualTo(expectedMetrics);
     }
 
 }

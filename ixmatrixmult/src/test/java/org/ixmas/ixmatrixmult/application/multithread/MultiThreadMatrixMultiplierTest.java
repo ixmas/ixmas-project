@@ -12,7 +12,7 @@ public class MultiThreadMatrixMultiplierTest extends MatrixMultiplierTest {
         int max = 8;
         Object[][] matrixMultipliers = new Object[max][];
         for (int threadNumber = 1; threadNumber <= max; threadNumber++) {
-            matrixMultipliers[threadNumber - 1] = new Object[]{"threadNumber=" + threadNumber, new MultiThreadMatrixMultiplier(threadNumber)};
+            matrixMultipliers[threadNumber - 1] = new Object[]{"THREAD_NUMBER=" + threadNumber, new MultiThreadMatrixMultiplier(threadNumber)};
         }
         return matrixMultipliers;
     }

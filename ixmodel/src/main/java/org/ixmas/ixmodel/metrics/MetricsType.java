@@ -33,6 +33,10 @@ public class MetricsType {
         return m_orderByDimension;
     }
 
+    public String getName() {
+        return m_name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

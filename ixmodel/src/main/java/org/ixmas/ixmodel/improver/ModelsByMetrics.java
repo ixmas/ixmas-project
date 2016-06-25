@@ -1,6 +1,6 @@
 package org.ixmas.ixmodel.improver;
 
-import org.ixmas.ixmodel.metrics.Metrics;
+import org.ixmas.ixmodel.metrics.QoSMetrics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,14 +10,14 @@ import java.util.Map.Entry;
 
 public class ModelsByMetrics {
 
-    private Map<Metrics, List<Model>> m_modelsByMetrics = new HashMap<>();
+    private Map<QoSMetrics, List<SoftwareModel>> m_modelsByMetrics = new HashMap<>();
 
-    public void compareAndUpdate(Metrics metrics, Model model) {
-        List<Metrics> metricsToRemove = new ArrayList<>();
+    public void compareAndUpdate(QoSMetrics metrics, SoftwareModel softwareModel) {
+        List<QoSMetrics> metricsToRemove = new ArrayList<>();
         boolean isToAdd = true;
-        for (Entry<Metrics, List<Model>> metricsModelsEntry : m_modelsByMetrics.entrySet()) {
-            Metrics existingMetrics = metricsModelsEntry.getKey();
-            List<Model> existingModels = metricsModelsEntry.getValue();
+        for (Entry<QoSMetrics, List<SoftwareModel>> metricsModelsEntry : m_modelsByMetrics.entrySet()) {
+            QoSMetrics existingMetrics = metricsModelsEntry.getKey();
+            List<SoftwareModel> existingSoftwareModels = metricsModelsEntry.getValue();
             Integer comparison = metrics.compareWith(existingMetrics);
             if (comparison != null) { // comparable
                 if (comparison == -1) { // less than existing
@@ -27,7 +27,7 @@ public class ModelsByMetrics {
                     isToAdd = true;
                     metricsToRemove.add(existingMetrics);
                 } else { // same than existing
-                    existingModels.add(model);
+                    existingSoftwareModels.add(softwareModel);
                     isToAdd = false;
                     break;
                 }
@@ -35,13 +35,13 @@ public class ModelsByMetrics {
         }
         if (isToAdd) {
             metricsToRemove.forEach(m_modelsByMetrics::remove);
-            List<Model> models = new ArrayList<>();
-            models.add(model);
-            m_modelsByMetrics.put(metrics, models);
+            List<SoftwareModel> softwareModels = new ArrayList<>();
+            softwareModels.add(softwareModel);
+            m_modelsByMetrics.put(metrics, softwareModels);
         }
     }
 
-    public Iterable<Metrics> getMetricses() {
+    public Iterable<QoSMetrics> getMetricses() {
         return m_modelsByMetrics.keySet();
     }
 

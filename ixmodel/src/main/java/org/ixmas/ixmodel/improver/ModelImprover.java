@@ -1,6 +1,7 @@
 package org.ixmas.ixmodel.improver;
 
-import org.ixmas.ixmodel.metrics.Metrics;
+import org.ixmas.ixmodel.metrics.QoSMetrics;
+import org.ixmas.ixmodel.metrics.SoftwareMetrics;
 
 public class ModelImprover implements Improver {
 
@@ -14,10 +15,13 @@ public class ModelImprover implements Improver {
     public ModelsByMetrics bestModels(InputModel inputModel) {
         ModelsByMetrics modelsByMetrics = new ModelsByMetrics();
         for (ModelAndEvaluator modelAndEvaluator : m_modelAndEvaluatorLister.list()) {
-            Model model = modelAndEvaluator.getModel();
-            MetricsEvaluator metricsEvaluator = modelAndEvaluator.getMetricsEvaluator();
-            Metrics metrics = metricsEvaluator.evaluate(model, inputModel);
-            modelsByMetrics.compareAndUpdate(metrics, model);
+            SoftwareModel softwareModel = modelAndEvaluator.getSoftwareModel();
+            HardwareModel hardwareModel = modelAndEvaluator.getHardwareModel();
+            QoSMetricsEvaluator qoSMetricsEvaluator = modelAndEvaluator.getQoSMetricsEvaluator();
+            SoftwareMetricsEvaluator softwareMetricsEvaluator = modelAndEvaluator.getSoftwareMetricsEvaluator();
+            SoftwareMetrics softwareMetrics = softwareMetricsEvaluator.evaluate(softwareModel, inputModel);
+            QoSMetrics metrics = qoSMetricsEvaluator.evaluate(softwareMetrics, hardwareModel);
+            modelsByMetrics.compareAndUpdate(metrics, softwareModel);
         }
         return modelsByMetrics;
     }

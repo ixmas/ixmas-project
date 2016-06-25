@@ -8,9 +8,9 @@ public class MatrixOperationModelListerTest {
 
     @Test
     public void should() {
-        MatrixOperationModelLister matrixOperationModelLister = new MatrixOperationModelLister();
+        MatrixModelLister matrixModelLister = new MatrixModelLister();
         final int[] count = {0};
-        matrixOperationModelLister.list().forEach(modelAndEvaluator -> count[0]++);
+        matrixModelLister.list().forEach(modelAndEvaluator -> count[0]++);
         assertThat(count[0]).isEqualTo(9);
     }
 }

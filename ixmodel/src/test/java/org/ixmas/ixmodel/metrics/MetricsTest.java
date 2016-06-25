@@ -15,7 +15,7 @@ public class MetricsTest {
         metricsType.putDimension(dimension1, Ascending);
         String dimension2 = "dimension2";
         metricsType.putDimension(dimension2, Ascending);
-        Metrics metrics1 = new Metrics(metricsType);
+        Metrics metrics1 = new QoSMetrics(metricsType);
         metrics1.putValue(dimension1, 10);
         metrics1.putValue(dimension2, 100);
         Metrics metrics2 = new Metrics(metricsType);

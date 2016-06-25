@@ -1,4 +1,4 @@
 package org.ixmas.ixmodel.improver;
 
-public interface Model {
+public interface HardwareModel {
 }

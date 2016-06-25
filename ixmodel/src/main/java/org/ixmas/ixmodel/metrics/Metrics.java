@@ -20,8 +20,8 @@ public class Metrics {
         return m_metricsType;
     }
 
-    public MetricsValues getMetricsValues() {
-        return m_metricsValues;
+    public Double getValue(String dimension) {
+        return m_metricsValues.getValue(dimension);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Metrics {
      */
     public Integer compareWith(Metrics otherMetrics) {
         checkNotNull(otherMetrics);
-        checkArgument(otherMetrics.getMetricsType().equals(m_metricsType));
+        checkArgument(otherMetrics.getMetricsType().equals(m_metricsType), "Cannot compare metrics %s with other metrics %s", m_metricsType.getName(), otherMetrics.getMetricsType().getName());
         boolean isLessThan = true;
         boolean isEqualTo = true;
         boolean isGreaterThan = true;
@@ -63,7 +63,7 @@ public class Metrics {
             Order order = dimensionOrderEntry.getValue();
 
             Double value = m_metricsValues.getValue(dimension);
-            Double otherValue = otherMetrics.getMetricsValues().getValue(dimension);
+            Double otherValue = otherMetrics.m_metricsValues.getValue(dimension);
             if (!(value == null && otherValue == null)) {
                 isEqualTo = false;
                 if (value == null || otherValue == null) {
@@ -101,7 +101,7 @@ public class Metrics {
     }
 
     public Metrics putValue(String dimension, Integer value) {
-        checkArgument(m_metricsType.containsDimension(dimension));
+        checkArgument(m_metricsType.containsDimension(dimension), "Dimension %s does not exist in %.", dimension, m_metricsType.getName());
         m_metricsValues.putValue(dimension, value);
         return this;
     }
