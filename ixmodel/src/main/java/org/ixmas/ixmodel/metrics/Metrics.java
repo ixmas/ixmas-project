@@ -101,7 +101,7 @@ public class Metrics {
     }
 
     public Metrics putValue(String dimension, Integer value) {
-        checkArgument(m_metricsType.containsDimension(dimension), "Dimension %s does not exist in %.", dimension, m_metricsType.getName());
+        checkArgument(m_metricsType.containsDimension(dimension), "Dimension %s does not exist in %s", dimension, m_metricsType.getName());
         m_metricsValues.putValue(dimension, value);
         return this;
     }

@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.ixmas.ixmatrixmult.improver.multithread.MultiThreadMatrixSoftwareMetrics.*;
 
 public class MultiThreadMatrixMetricsEvaluatorTest {
 
@@ -37,9 +38,9 @@ public class MultiThreadMatrixMetricsEvaluatorTest {
         MatrixModel matrixModel2 = new MatrixModel(matrixModel2LineNumber, matrixModel2ColumnNumber);
         Metrics metrics = multiThreadMatrixSoftwareMetricsEvaluator.evaluate(multiThreadMatrixMultiplierModel, matrixModel1, matrixModel2);
         Metrics expectedMetrics = new MultiThreadMatrixSoftwareMetrics();
-        expectedMetrics.putValue(MultiThreadMatrixSoftwareMetrics.OPERATION_NUMBER_PER_THREAD, lineNumberPerThread * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2).putValue(MultiThreadMatrixSoftwareMetrics.VALUE_COPY, matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MultiThreadMatrixSoftwareMetrics.MEMORY_SIZE_MAIN, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
+        expectedMetrics.putValue(THREAD_NUMBER, threadNumber).putValue(OPERATION_NUMBER_PER_THREAD, lineNumberPerThread * matrixModel2.getColumnNumber() * matrixModel1.getColumnNumber() * 2).putValue(VALUE_COPY, matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MEMORY_SIZE_MAIN, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
                 + matrixModel2.getLineNumber() * matrixModel2.getColumnNumber()
-                + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MultiThreadMatrixSoftwareMetrics.MEMORY_SIZE_PER_THREAD, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
+                + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber()).putValue(MEMORY_SIZE_PER_THREAD, matrixModel1.getLineNumber() * matrixModel1.getColumnNumber()//
                 + matrixModel2.getLineNumber() * matrixModel2.getColumnNumber()
                 + matrixModel1.getLineNumber() * matrixModel2.getColumnNumber());
         assertThat(metrics).as("THREAD_NUMBER = " + threadNumber).isEqualTo(expectedMetrics);

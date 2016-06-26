@@ -20,7 +20,7 @@ public class MetricsType {
     public MetricsType putDimension(String dimension, Order order) {
         checkNotNull(dimension);
         checkNotNull(order);
-        checkArgument(!m_orderByDimension.containsKey(dimension), "Dimension %s already put.", dimension);
+        checkArgument(!m_orderByDimension.containsKey(dimension), "Dimension %s already put", dimension);
         m_orderByDimension.put(dimension, order);
         return this;
     }

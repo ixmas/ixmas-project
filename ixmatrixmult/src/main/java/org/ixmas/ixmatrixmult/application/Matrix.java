@@ -14,8 +14,8 @@ public class Matrix {
     private final List<List<Double>> m_lines;
 
     public Matrix(int lineNumber, int columnNumber) {
-        checkArgument(lineNumber > 0, "lineNumber > 0");
-        checkArgument(columnNumber > 0, "columnNumber > 0");
+        checkArgument(lineNumber > 0, "Wrong line number: lineNumber=%s should be greater than 0", lineNumber);
+        checkArgument(columnNumber > 0, "Wrong column number: columnNumber=%s should be greater than 0", columnNumber);
         m_lineNumber = lineNumber;
         m_columnNumber = columnNumber;
         m_lines = new ArrayList<>(lineNumber);
@@ -29,8 +29,7 @@ public class Matrix {
     }
 
     public void set(int lineIdx, int columnIdx, Double value) {
-        checkArgument(lineIdx >= 0 && lineIdx < m_lineNumber, "lineIdx >= 0 && lineIdx < m_lineNumber");
-        checkArgument(columnIdx >= 0 && columnIdx < m_columnNumber, "columnIdx >= 0 && columnIdx < m_columnNumber");
+        checkLineIdxColumnIdx(lineIdx, columnIdx);
         m_lines.get(lineIdx).set(columnIdx, value);
     }
 
@@ -39,18 +38,18 @@ public class Matrix {
     }
 
     public void setLine(int lineIdx, List<Double> values) {
-        checkArgument(lineIdx >= 0 && lineIdx < m_lineNumber, "lineIdx >= 0 && lineIdx < m_lineNumber");
-        checkArgument(values.size() == m_columnNumber, "values.length == m_columnNumber");
+        checkLineIdx(lineIdx);
+        checkArgument(values.size() == m_columnNumber, "Wrong number of columns in lineIdx=%s: %s should equal to %s", lineIdx, values.size(), m_columnNumber);
         for (int columnIdx = 0; columnIdx < values.size(); columnIdx++) {
             m_lines.get(lineIdx).set(columnIdx, values.get(columnIdx));
         }
     }
 
     public void setValues(Double[]... lines) {
-        checkArgument(lines.length == m_lineNumber, "lines.length == m_lineNumber");
+        checkArgument(lines.length == m_lineNumber, "Wrong number of lines: lines.length=%s should equal to lineNumber=%s", lines.length, m_lineNumber);
         for (int lineIdx = 0; lineIdx < lines.length; lineIdx++) {
             Double[] line = lines[lineIdx];
-            checkArgument(line.length == m_columnNumber);
+            checkArgument(line.length == m_columnNumber, "Wrong column number for line %s: %s should equal to %s", lineIdx, line.length, m_columnNumber);
             for (int columnIdx = 0; columnIdx < line.length; columnIdx++) {
                 m_lines.get(lineIdx).set(columnIdx, line[columnIdx]);
             }
@@ -58,9 +57,23 @@ public class Matrix {
     }
 
     public Double get(int lineIdx, int columnIdx) {
-        checkArgument(lineIdx >= 0 && lineIdx < m_lineNumber, "0 <= lineIdx =  %s < m_lineNumber = %s", lineIdx, m_lineNumber);
-        checkArgument(columnIdx >= 0 && columnIdx < m_columnNumber, "columnIdx >= 0 && columnIdx < m_columnNumber");
+        checkLineIdxColumnIdx(lineIdx, columnIdx);
         return m_lines.get(lineIdx).get(columnIdx);
+    }
+
+    private void checkLineIdx(int lineIdx) {
+        checkArgument(lineIdx >= 0, "Wrong lineIdx: lineIdx=%s should be positive or null", lineIdx);
+        checkArgument(lineIdx < m_lineNumber, "Wrong lineIdx: lineIdx=%s should be less than lineNumber=%s", lineIdx, m_lineNumber);
+    }
+
+    private void checkColumnIdx(int columnIdx) {
+        checkArgument(columnIdx >= 0, "Wrong columnIdx: columnIdx=%s should be positive or null", columnIdx);
+        checkArgument(columnIdx < m_columnNumber, "Wrong columnIdx: columnIdx=%s should be less than columnNumber=%s", columnIdx, m_columnNumber);
+    }
+
+    private void checkLineIdxColumnIdx(int lineIdx, int columnIdx) {
+        checkLineIdx(lineIdx);
+        checkColumnIdx(columnIdx);
     }
 
     public int getLineNumber() {
